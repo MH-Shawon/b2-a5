@@ -32,16 +32,18 @@ export const loginAction = async (prevState: LoginActionState, formData: FormDat
 
     if (result.success) {
         const cookieStore = await cookies();
+        const isSecure = process.env.NODE_ENV === "production";
+
         cookieStore.set("accessToken", result.data?.accessToken || "", {
             httpOnly: true,
-            secure: true,
+            secure: isSecure,
             sameSite: "lax",
             path:"/",
             maxAge: 60 * 60 * 24, // 1 days
         });
         cookieStore.set("refreshToken", result.data?.refreshToken || "", {
             httpOnly: true,
-            secure: true,
+            secure: isSecure,
             sameSite: "lax",
             path:"/",
             maxAge: 60 * 60 * 24 * 7, // 7 days
