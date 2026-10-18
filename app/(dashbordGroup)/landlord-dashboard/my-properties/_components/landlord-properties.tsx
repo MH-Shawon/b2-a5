@@ -13,7 +13,7 @@ import { getCategories } from "@/service/category/getAllCategory";
 import PropertyManageDialogs from "./PropertyManageDialogs";
 
 
-export default async function LandlordProperties({ properties }: IPropertiesCardProps) {
+export default async function LandlordProperties({ properties = [] }: IPropertiesCardProps) {
 
     const categories = await getCategories();
 
@@ -36,7 +36,7 @@ export default async function LandlordProperties({ properties }: IPropertiesCard
 
             <CardContent>
                 <div className="">
-                    <MyPropertiesTable categories={categories.data} properties={properties} />
+                    <MyPropertiesTable categories={categories.data} properties={properties ?? []} />
                 </div>
             </CardContent>
         </Card>

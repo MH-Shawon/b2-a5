@@ -13,10 +13,7 @@ import Link from 'next/link';
 
 
 
-const FeaturedProperties = async ({ properties }: IPropertiesCardProps) => {
-
-
-   
+const FeaturedProperties = async ({ properties = [] }: IPropertiesCardProps) => {
     return (
         <section className="mx-auto max-w-7xl px-4 py-20 sm:px-6 lg:px-8">
             {/* Section Header */}

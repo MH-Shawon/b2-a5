@@ -76,7 +76,7 @@ export const PropertyRecords = ({
                                 loading="eager"
                                 width={300}
                                 height={200}
-                                src={property.images?.[2] || "/placeholder-property.jpg"}
+                                src={property.images?.[0]?.trim() || "/placeholder-property.svg"}
                                 alt={property.title}
                                 className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                             />

@@ -10,7 +10,7 @@ import { NativeSelect, NativeSelectOption } from '@/components/ui/native-select'
 import { Textarea } from '@/components/ui/textarea'
 import { ICategory } from '@/lib/category'
 import { Building2, ImagePlus, MapPin, Plus } from 'lucide-react'
-import { useActionState, useEffect, useRef } from 'react'
+import { useActionState, useEffect, useState } from 'react'
 import { propertyCreateAction } from '../_actions/propertyCreateAction'
 import { PropertyCreateState } from '@/lib/type'
 import { toast } from 'sonner'
@@ -32,19 +32,17 @@ const initialState: PropertyCreateState = {
 export default function PropertyManageDialogs({ categories }: { categories: ICategory[] }) {
 
     const [state, action, isPending] = useActionState(propertyCreateAction, initialState);
-    // const formRef = useRef<HTMLFormElement>(null);
+    const [open, setOpen] = useState(false);
     const router = useRouter()
 
-
-
     useEffect(() => {
-        if (!state.message) return;
+        if (!state?.message) return;
 
-        if (state.success && state.data) {
-            toast.success(state.message);
-
-            // formRef.current?.reset();
-            router.push("/landlord-dashboard/my-properties")
+        if (state.success) {
+            toast.success(state.message || "Property created successfully");
+            setOpen(false);
+            router.refresh();
+            router.push("/landlord-dashboard/my-properties");
         } else {
             toast.error(state.message);
         }
@@ -56,7 +54,7 @@ export default function PropertyManageDialogs({ categories }: { categories: ICat
 
 
     return (
-        <Dialog >
+        <Dialog open={open} onOpenChange={setOpen}>
             {/* Trigger */}
             <Button
                 render={<DialogTrigger />}

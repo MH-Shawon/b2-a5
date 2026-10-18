@@ -97,18 +97,20 @@ const PropertyPagination = ({
                     );
                 }
 
+                const pageNumber = Number(page);
+
                 return (
                     <Button
-                        key={page}
+                        key={`page-${pageNumber}-${index}`}
                         size="sm"
                         variant={
-                            currentPage === page
+                            currentPage === pageNumber
                                 ? "default"
                                 : "outline"
                         }
-                        onClick={() => handlePageChange(page as number)}
+                        onClick={() => handlePageChange(pageNumber)}
                     >
-                        {page}
+                        {pageNumber}
                     </Button>
                 );
             })}

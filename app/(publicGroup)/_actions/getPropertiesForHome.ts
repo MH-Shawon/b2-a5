@@ -1,21 +1,29 @@
 "use server"
 
 export const getPropertiesForHome = async () => {
+    try {
+        const res = await fetch(`${process.env.BACKEND_API_URL}/api/properties?take=3`, {
+            method: "GET",
+            headers: {
+                "content-type": "application/json",
+            },
+            cache: "no-store",
+        });
 
-    const res = await fetch(`${process.env.BACKEND_API_URL}/api/properties?take=3`, {
-        method: "GET",
-        headers: {
-            "content-type": "application/json",
-        },
-        cache: "force-cache",
-        next: {
-            revalidate: 60 * 60 * 6,
-            tags:['home-property']
+        if (!res.ok) {
+            return [];
         }
-    });
 
-    const result = await res.json()
+        const result = await res.json();
+        const properties = Array.isArray(result?.data)
+            ? result.data
+            : Array.isArray(result?.data?.data)
+                ? result.data.data
+                : [];
 
-
-    return result.data.data;
-}
+        return properties;
+    } catch (error) {
+        console.error("Failed to fetch featured properties:", error);
+        return [];
+    }
+};

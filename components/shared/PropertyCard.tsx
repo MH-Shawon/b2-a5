@@ -12,9 +12,14 @@ import { IPropertiesCardProps, IProperty } from '@/lib/type';
 
 
 
-const PropertyCard = ({ properties }: IPropertiesCardProps) => {
-
-
+const PropertyCard = ({ properties = [] }: IPropertiesCardProps) => {
+    if (!properties.length) {
+        return (
+            <div className="col-span-full rounded-lg border border-dashed border-muted-foreground/30 bg-muted/20 p-6 text-center text-sm text-muted-foreground">
+                No properties available right now.
+            </div>
+        );
+    }
 
     return (
         <>

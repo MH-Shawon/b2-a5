@@ -43,9 +43,17 @@ export const getProperties = async ({ searchQuery }: {
         method: "GET",
         headers: {
             "content-type": "application/json",
-        }
+        },
+        cache: "no-store",
     });
 
-    const result = await res.json()
-    return result.data;
+    if (!res.ok) {
+        return { data: [], meta: { page: 1, totalPages: 1, totalItems: 0 } };
+    }
+
+    const result = await res.json();
+    return {
+        data: Array.isArray(result?.data) ? result.data : [],
+        meta: result?.meta ?? { page: 1, totalPages: 1, totalItems: 0 },
+    };
 }

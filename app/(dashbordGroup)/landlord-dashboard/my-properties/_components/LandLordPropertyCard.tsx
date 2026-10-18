@@ -19,7 +19,7 @@ interface MyPropertiesTableProps {
 }
 
 export default function MyPropertiesTable({
-    properties,
+    properties = [],
     categories
 
 }: MyPropertiesTableProps) {
@@ -68,6 +68,14 @@ export default function MyPropertiesTable({
 
     }
 
+
+    if (!properties.length) {
+        return (
+            <div className="rounded-xl border border-dashed border-muted-foreground/30 bg-muted/20 p-6 text-center text-sm text-muted-foreground">
+                No properties have been added yet.
+            </div>
+        );
+    }
 
     return (
         <div className="overflow-hidden rounded-2xl border bg-card">

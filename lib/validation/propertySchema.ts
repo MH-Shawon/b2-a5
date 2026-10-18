@@ -1,5 +1,20 @@
 import { z } from "zod";
 
+const normalizeStringArray = (value: unknown) => {
+    if (Array.isArray(value)) {
+        return value.map((item) => String(item).trim()).filter(Boolean);
+    }
+
+    if (typeof value === "string") {
+        return value
+            .split(",")
+            .map((item) => item.trim())
+            .filter(Boolean);
+    }
+
+    return [];
+};
+
 export const propertySchema = z.object({
     title: z
         .string()
@@ -44,11 +59,15 @@ export const propertySchema = z.object({
             message: "Invalid bathroom number",
         }),
 
-    amenities: z
-        .string().transform(value => value.split(",").map(value => value.trim())),
+    amenities: z.preprocess(
+        normalizeStringArray,
+        z.array(z.string()).default([])
+    ),
 
-    images: z
-        .string().transform(value => value.split(",").map(value => value.trim())).pipe(z.array(z.url()).min(1)),
+    images: z.preprocess(
+        normalizeStringArray,
+        z.array(z.string().url()).default([])
+    ),
 
     availability: z.enum([
         "AVAILABLE",

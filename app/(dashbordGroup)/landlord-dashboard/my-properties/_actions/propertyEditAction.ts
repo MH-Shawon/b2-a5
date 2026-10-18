@@ -48,9 +48,9 @@ export const propertyEditAction = async (prevState: PropertyCreateState, formDat
 
 
     const res = await fetch(
-        `${process.env.BACKEND_API_URL}/api/landlord/properties/${id}`,
+        `${process.env.BACKEND_API_URL}/api/properties/${id}`,
         {
-            method: "PUT",
+            method: "PATCH",
             headers: {
                 cookie: `accessToken=${accessToken}`,
                 "Content-Type": "application/json",
